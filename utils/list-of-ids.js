@@ -14,7 +14,6 @@ async function getListOfIDs(cookie, mediaCategory, mediaType) {
   //  Divide number of items on list by 100, because there are 100 items in one "page"
   //  Then round to bigger number
   const numberOfPages = Math.ceil(requestDetails.number / 100)
-  console.log(`Number of pages: ${numberOfPages}`)
 
   let IDs = []
 
@@ -22,7 +21,10 @@ async function getListOfIDs(cookie, mediaCategory, mediaType) {
     // @param mediaCategory - vote / want2see - determines if endpoint should get number of rated items or want2see items
     // @param mediaType - film / serial - determines the endpoint that should get number of movies or series in previosly set category
     // @param pageNumber - variable called 'numberOfPages'
-    const ENDPOINT = `https://www.filmweb.pl/api/v1/logged/${requestDetails.mediaCategory}/title/${requestDetails.mediaType}?page=${i}`
+    
+    let ENDPOINT = ''
+    if (requestDetails.mediaCategory === 'vote') ENDPOINT = `https://www.filmweb.pl/api/v1/logged/${requestDetails.mediaCategory}/title/${requestDetails.mediaType}?page=${i}`
+    if (requestDetails.mediaCategory === 'want2see') ENDPOINT= `https://www.filmweb.pl/api/v1/logged/${requestDetails.mediaCategory}/${requestDetails.mediaType}?page=${i}`
 
     try {
       const response = await axios.get(ENDPOINT, {
@@ -31,8 +33,6 @@ async function getListOfIDs(cookie, mediaCategory, mediaType) {
         }
       });
       const data = response.data;
-      console.log(`Length of data: ${data.length}`)
-  
       for (const movie of data) {
         IDs.push(movie.entity)
       }

@@ -8,8 +8,9 @@ const getNumberOfSeasons = async (id) => {
     //  FIlmweb so spaghetti-coded that numbers for series has 'film' in endpoint route 
     //  🤡
     const response = await axios.get(`https://www.filmweb.pl/api/v1/film/${id}/counters`)
-    console.log('Log from inside of a function getNumberOfSeasons')
     data = response.data
+
+    //  Actually whole object gets returned here
     return data
   } catch (error) {
     console.error('Failed in number of seasons')

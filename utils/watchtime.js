@@ -1,4 +1,3 @@
-const { default: axios } = require('axios');
 const getMovieDetails = require('./movie-details');
 const {getNumberOfSeasons, getNumberOfEpisodes} = require('./numbers-for-series')
 
@@ -10,15 +9,10 @@ const {getNumberOfSeasons, getNumberOfEpisodes} = require('./numbers-for-series'
 
 async function getMoviesWatchtime(IDs) {
   let watchtime = 0;
-
-  console.log(IDs)
-
   try {
     for (const id in IDs) {
       const response = await getMovieDetails(id);
       const data = response.duration;
-
-      // console.log(data)
       if (data) watchtime = watchtime + data;
     }
   } catch (error) {
@@ -37,9 +31,7 @@ async function getSeriesWatchtime(IDs) {
     try {
       let allSeriesData = []
       let watchtime = 0;
-      console.log(watchtime)
-
-      for(const id of IDs) {
+      for (const id of IDs) {
         const series = {
           seriesID: id,
           numberOfEpisodes: 0,
@@ -59,8 +51,6 @@ async function getSeriesWatchtime(IDs) {
           numberOfEpisodes = seriesNumbers.episodes
         }
 
-        console.log(numberOfEpisodes)
-
         const seriesDetails = await getMovieDetails(id)
         const avgEpisodeDuration = seriesDetails.duration
   
@@ -68,13 +58,9 @@ async function getSeriesWatchtime(IDs) {
         series.avgEpisodeDuration = avgEpisodeDuration
         allSeriesData.push(series)
       }
-  
-      console.log(allSeriesData)
 
       for(const series of allSeriesData) {
-        console.log(series)
         watchtime = watchtime + (series.numberOfEpisodes * series.avgEpisodeDuration)
-        console.log(`Watchtime: ${watchtime}`)
       }
       return watchtime
     } catch (error) {
