@@ -82,7 +82,11 @@ async function getSeriesWatchtime(IDs) {
     }
 }
 
-const getOverallWatchtime = () => {}
+const getOverallWatchtime = async (movieIDS, seriesIDs) => {
+  const moviesWatchtime = await getMoviesWatchtime(movieIDS);
+  const seriesWatchtime = await getSeriesWatchtime(seriesIDs);
+  return moviesWatchtime + seriesWatchtime
+}
 
 module.exports = {
   getMoviesWatchtime,
