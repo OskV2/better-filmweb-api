@@ -84,6 +84,15 @@ router.get('/watchtime/want2see/series', async (req, res) => {
 })
 
 //  Watchtime of specific series
-// router.get(`/watchtime/series/${id}`, )
+router.get(`/watchtime/series`, async (req, res) => {
+  try {
+    const IDs = [37003];
+    const watchtime = await getSeriesWatchtime(IDs)
+    res.json(watchtime);
+  } catch (error) {
+    console.error('Failed in routes');
+    res.status(500).json({ error: 'Failed to get data' });
+  }
+})
 
 module.exports = router;
